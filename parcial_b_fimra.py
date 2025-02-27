@@ -25,40 +25,40 @@ with open(ruta_documento, "rb") as file:
 
 # 3. Alice genera el hash SHA-256 del documento
 hM = int.from_bytes(hashlib.sha256(documento).digest(), byteorder='big')
-print("\n🔹 Hash SHA-256 del documento:", hex(hM))
+print("\n Hash SHA-256 del documento:", hex(hM))
 
 # 4. Alice firma el hash con su clave privada
 firmaAlice = pow(hM, dA, nA)
-print("\n🔹 Firma digital de Alice:", hex(firmaAlice))
+print("\n Firma digital de Alice:", hex(firmaAlice))
 
 # 5. Guardar la firma en un archivo
 with open("firmaAlice.txt", "w") as file:
     file.write(str(firmaAlice))
 
-print("\n📤 Documento y firma enviados a la Autoridad Certificadora (AC).")
+print("\n Documento y firma enviados a la Autoridad Certificadora (AC).")
 
 # 6. La AC verifica la firma de Alice
 hM_verificado = pow(firmaAlice, eA, nA)
 
 if hM_verificado == hM:
-    print("\n✅ La AC confirma que la firma de Alice es válida.")
+    print("\n La AC confirma que la firma de Alice es válida.")
 
     # 7. La AC firma el documento con su clave privada
     firmaAC = pow(hM, dAC, nAC)
-    print("\n🔹 La AC ha firmado el documento.")
+    print("\n La AC ha firmado el documento.")
 
     # 8. Guardar la firma de la AC en un archivo
     with open("firmaAC.txt", "w") as file:
         file.write(str(firmaAC))
 
-    print("\n📤 La AC envía el documento firmado a Bob.")
+    print("\n La AC envía el documento firmado a Bob.")
 
     # 9. Bob verifica la firma de la AC
     hM_Bob = pow(firmaAC, eAC, nAC)
 
     if hM_Bob == hM:
-        print("\n✅ La firma de la AC es válida. Bob confía en el documento.")
+        print("\n La firma de la AC es válida. Bob confía en el documento.")
     else:
-        print("\n❌ La firma de la AC es inválida. Bob no confía en el documento.")
+        print("\n La firma de la AC es inválida. Bob no confía en el documento.")
 else:
-    print("\n❌ La AC detectó que la firma de Alice no es válida.")
+    print("\n La AC detectó que la firma de Alice no es válida.")
